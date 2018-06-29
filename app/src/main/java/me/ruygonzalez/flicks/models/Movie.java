@@ -2,14 +2,20 @@ package me.ruygonzalez.flicks.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel // annotation indicates class is Parcelable
 public class Movie {
 
-    // values from API
-    private String title;
-    private String overview;
-    private String posterPath; // only the  path
-    private String backdropPath;
+    // values from API must be public for parceler
+    public String title;
+    public String overview;
+    public String posterPath; // only the  path
+    public String backdropPath;
+    public Double voteAverage;
+
+    // no-arg, empty constructor required for Parceler
+    public Movie() {}
 
     // initialize from JSON data
     public Movie(JSONObject object) throws JSONException {
@@ -17,6 +23,7 @@ public class Movie {
         overview = object.getString("overview");
         posterPath = object.getString("poster_path");
         backdropPath = object.getString("backdrop_path");
+        voteAverage = object.getDouble("vote_average");
     }
 
     public String getTitle() {
@@ -33,5 +40,9 @@ public class Movie {
 
     public String getBackdropPath() {
         return backdropPath;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
     }
 }
