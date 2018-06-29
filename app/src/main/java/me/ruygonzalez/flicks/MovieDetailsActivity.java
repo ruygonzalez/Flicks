@@ -18,6 +18,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     // the view objects
     TextView tvTitle;
     TextView tvOverview;
+    TextView tvReleaseDate;
     RatingBar rbVoteAverage;
 
     @Override
@@ -27,6 +28,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // resolve the view objects
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvOverview = (TextView) findViewById(R.id.tvOverview);
+        tvReleaseDate = (TextView) findViewById(R.id.tvReleaseDate);
         rbVoteAverage = (RatingBar) findViewById(R.id.rbVoteAverage);
         // unwrap the movie passed in via intent, using its simple name as a key
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
@@ -34,7 +36,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // set the title and overview
         tvTitle.setText(movie.getTitle());
         tvOverview.setText(movie.getOverview());
-
+        String rd = movie.getReleaseDate();
+        String year = rd.substring(0, rd.indexOf("-"));
+        rd = rd.substring(rd.indexOf("-") + 1);
+        year += " ";
+        int m = Integer.parseInt(rd.substring(0, rd.indexOf("-")));
+        String[] months = new String[] {"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November"};
+        String month = months[m];
+        rd = rd.substring(rd.indexOf("-") + 1);
+        String day = rd;
+        String date = "Premiere: " + month + " " + day + ", " + year; // sorry for not using String.format and %s
+        //tvReleaseDate.setText(movie.getReleaseDate());
+        tvReleaseDate.setText(date);
         // vote average is 0..10, convert to 0..5 by dividing by 2
         float voteAverage = movie.getVoteAverage().floatValue();
         rbVoteAverage.setRating(voteAverage = voteAverage > 0 ? voteAverage / 2.0f : voteAverage);
